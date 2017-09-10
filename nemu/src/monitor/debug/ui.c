@@ -37,11 +37,37 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args) {
-	char * str_n = strtok(args, " ");
-	int n = atoi(str_n);
+	int n;
+	if (args == NULL) {
+		n = 1;
+	} else {
+		char * str_n = strtok(args, " ");
+		n = atoi(str_n);
+	}
 	cpu_exec(n);
 	return 0;
 
+}
+
+static int cmd_info(char *args) {
+	char * kind = strtok(args, " ");
+	if (strcmp("r", kind) == 0) {
+		for(int i = R_EAX; i <= R_EDI; i++) {
+			printf("%s : %x\t%s : %x", regsl[i], reg_l(i), regsw[i], reg_w(i));
+			if (i <= R_EBX) {
+				printf("\t%s : %x\t%s : %x\n",regsb[i], reg_b(i), regsb[i+4], reg_b((i+4)));
+			} else {
+				printf("\n");
+			}
+			printf("eip : %x\n", cpu.eip);
+		}
+
+	} else if (strcmp("w", kind) == 0) {
+
+	} else {
+		printf("Error Command!");
+	}
+	return 0;
 }
 
 static int cmd_help(char *args);
@@ -54,6 +80,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "si", "Execute N instructions.", cmd_si },
+  { "info", "Print register status or watchpoint infomation", cmd_info },
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
