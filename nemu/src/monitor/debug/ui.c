@@ -59,9 +59,8 @@ static int cmd_info(char *args) {
 			} else {
 				printf("\n");
 			}
-			printf("eip : %x\n", cpu.eip);
 		}
-
+		printf("eip : %x\n", cpu.eip);
 	} else if (strcmp("w", kind) == 0) {
 
 	} else {
