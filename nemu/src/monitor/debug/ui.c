@@ -53,9 +53,9 @@ static int cmd_info(char *args) {
 	char * kind = strtok(args, " ");
 	if (strcmp("r", kind) == 0) {
 		for(int i = R_EAX; i <= R_EDI; i++) {
-			printf("%s : %x\t%s : %x", regsl[i], reg_l(i), regsw[i], reg_w(i));
+			printf("%s : %8x\t%s : %4x", regsl[i], reg_l(i), regsw[i], reg_w(i));
 			if (i <= R_EBX) {
-				printf("\t%s : %x\t%s : %x\n",regsb[i], reg_b(i), regsb[i+4], reg_b((i+4)));
+				printf("\t%s : %2x\t%s : %2x\n",regsb[i+4], reg_b((i+4)), regsb[i], reg_b(i));
 			} else {
 				printf("\n");
 			}
