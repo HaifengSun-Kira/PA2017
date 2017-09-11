@@ -54,7 +54,7 @@ static int cmd_x(char* args) {
 	int n = atoi(str_n);
 	char * str_expr = strtok(args, " ");
 	//temporary
-	int result = atoi(str_expr);
+	int result = strtol(str_expr, NULL, 16);
 	for(int i = 0; i < n; i++) {
 		uint32_t mem = vaddr_read(result, 4);
 		printf("%-8x-%-8x : 0x%-2x 0x%-2x 0x%-2x 0x%-2x\n",result+4*i, result+4*i+4, mem & 0x3, (mem & 0xC) >> 2, (mem & 0x30) >> 4, (mem & 0xC0) >> 6);
