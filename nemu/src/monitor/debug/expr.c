@@ -135,6 +135,9 @@ static bool check_parentheses(int p, int q){
 			} else if (tokens[i].type == ')') {
 				if (stack[top-1] == '(') {
 					top--;
+					if (top == 0 && i != q) {
+						return false;
+					}
 				} else {
 					stack[top++] = '(';
 				}
