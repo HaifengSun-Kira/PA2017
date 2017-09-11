@@ -30,8 +30,8 @@ static struct rule {
   {"\\*", '*'},         // mul
   {"-", '-'},           // minus
   {"/", '/'},           // div
-  {"(", '('},           // left parenthesis
-  {")", ')'},           // right parenthesis
+  {"\\(", '('},           // left parenthesis
+  {"\\)", ')'},           // right parenthesis
   {"==", TK_EQ}         // equal
 };
 
