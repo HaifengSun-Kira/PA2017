@@ -50,7 +50,7 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_p(char *args) {
-	bool success = false;
+	bool success = true;
 	uint32_t result = expr(args, &success);
     if (success){
 		printf("result: 0x%-8x\n", result);
