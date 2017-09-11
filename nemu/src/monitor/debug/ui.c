@@ -43,10 +43,23 @@ static int cmd_si(char *args) {
 	} else {
 		char * str_n = strtok(args, " ");
 		n = atoi(str_n);
-	}
+	 }
 	cpu_exec(n);
 	return 0;
 
+}
+
+static int cmd_x(char* args) {
+	char * str_n = strtok(args, " ");
+	int n = atoi(str_n);
+	char * str_expr = strtok(args, " ");
+	//temporary
+	int result = atoi(str_expr);
+	for(int i = 0; i < n; i++) {
+		uint32_t mem = vaddr_read(result, 4);
+		printf("%-8x-%-8x : 0x%-2x 0x%-2x 0x%-2x 0x%-2x\n",result+4*i, result+4*i+4, mem & 0x3, (mem & 0xC) >> 2, (mem & 0x30) >> 4, (mem & 0xC0) >> 6);
+	}
+	return 0;
 }
 
 static int cmd_info(char *args) {
@@ -79,6 +92,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "si", "Execute N instructions.", cmd_si },
+  { "x", "x N EXPR. Print consecutive N 4 bytes in hex rom the result of EXPR.", cmd_x },
   { "info", "Print register status or watchpoint infomation", cmd_info },
   { "q", "Exit NEMU", cmd_q },
 
