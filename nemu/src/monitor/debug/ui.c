@@ -49,24 +49,31 @@ static int cmd_si(char *args) {
 
 }
 
+static int cmd_p(char *args) {
+	bool success = false;
+	uint32_t result = expr(args, &success);
+    if (success){
+		printf("result: 0x%-8x\n", result);
+	}
+	return 0;
+}
+
 static int cmd_x(char* args) {
 	char * args_end = args + strlen(args);
 	char * str_n = strtok(args, " ");
 	int n = atoi(str_n);
 	args = str_n + strlen(str_n) + 1;
 	if (args >= args_end) {
-		printf("lack argument!!!");
+		printf("lack argument!!!\n");
 		return 0;
 	}
 	char * str_expr = strtok(args, " ");
 	if (str_expr == NULL) {
-		printf("lack argument!!!");
+		printf("lack argument!!!\n");
 		return 0;
 	}
-	printf("%s\n", str_expr);
 	//temporary
 	int result = strtol(str_expr, NULL, 16);
-	printf("0x%x\n",result);
 	for(int i = 0; i < n; i++) {
 		uint32_t mem = vaddr_read(result + 4 * i, 4);
 		printf("0x%-8x  ~  0x%-8x : 0x%-2x 0x%-2x 0x%-2x 0x%-2x\n",result+4*i, result+4*i+4, mem & 0xff, (mem & 0xff00) >> 8, (mem & 0xff0000) >> 16, (mem & 0xff000000) >> 24);
@@ -105,6 +112,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "si", "Execute N instructions.", cmd_si },
   { "x", "x N EXPR. Print consecutive N 4 bytes in hex rom the result of EXPR.", cmd_x },
+  { "p", "Calculate the value of the expression EXPR", cmd_p},
   { "info", "Print register status or watchpoint infomation", cmd_info },
   { "q", "Exit NEMU", cmd_q },
 
