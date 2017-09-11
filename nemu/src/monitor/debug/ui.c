@@ -55,12 +55,12 @@ static int cmd_x(char* args) {
 	int n = atoi(str_n);
 	args = str_n + strlen(str_n) + 1;
 	if (args >= args_end) {
-		printf("lack argument1!!!");
+		printf("lack argument!!!");
 		return 0;
 	}
 	char * str_expr = strtok(args, " ");
 	if (str_expr == NULL) {
-		printf("lack argument2!!!");
+		printf("lack argument!!!");
 		return 0;
 	}
 	printf("%s\n", str_expr);
@@ -68,8 +68,8 @@ static int cmd_x(char* args) {
 	int result = strtol(str_expr, NULL, 16);
 	printf("0x%x\n",result);
 	for(int i = 0; i < n; i++) {
-		uint32_t mem = vaddr_read(result, 4);
-		printf("0x%-8x~0x%-8x : 0x%-2x 0x%-2x 0x%-2x 0x%-2x\n",result+4*i, result+4*i+4, mem & 0xff, (mem & 0xff00) >> 8, (mem & 0xff0000) >> 16, (mem & 0xff000000) >> 24);
+		uint32_t mem = vaddr_read(result + 4 * i, 4);
+		printf("0x%-8x  ~  0x%-8x : 0x%-2x 0x%-2x 0x%-2x 0x%-2x\n",result+4*i, result+4*i+4, mem & 0xff, (mem & 0xff00) >> 8, (mem & 0xff0000) >> 16, (mem & 0xff000000) >> 24);
 	}
 	return 0;
 }
