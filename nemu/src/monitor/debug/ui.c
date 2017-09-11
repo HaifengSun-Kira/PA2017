@@ -50,9 +50,19 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_x(char* args) {
+	char * args_end = args + strlen(args);
 	char * str_n = strtok(args, " ");
 	int n = atoi(str_n);
+	args = str_n + strlen(str_n) + 1;
+	if (args >= args_end) {
+		printf("lack argument1!!!");
+		return 0;
+	}
 	char * str_expr = strtok(args, " ");
+	if (str_expr == NULL) {
+		printf("lack argument2!!!");
+		return 0;
+	}
 	printf("%s\n", str_expr);
 	//temporary
 	int result = strtol(str_expr, NULL, 16);
