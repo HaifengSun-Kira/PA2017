@@ -313,7 +313,8 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   for (int i = 0; i < nr_token; i ++) {
-	if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_DECNUM && tokens[i -1].type != TK_HEXNUM && tokens[i].type != TK_REG)) ) {
+	int type = tokens[i].type;
+	if (type == '*' && (i == 0 || type == '+' || type == '-' || type == '*' || type == '/' || type == TK_EQ || type == TK_UNEQ || type == TK_AND || type == TK_OR || type == '!')) {
       tokens[i].type = TK_DEREF;
     }
   }
