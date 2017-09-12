@@ -9,7 +9,7 @@
 
 #define OPERNUM 4
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM
+  TK_NOTYPE = 256, TK_EQ, TK_DECNUM, TK_HEXNUM, TK_REG
 
   /* TODO: Add more token types */
 
@@ -25,7 +25,9 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"[0-9]+", TK_NUM},   // decimal number
+  {"[0-9]+", TK_DECNUM},   // decimal number
+  {"0x[0-9A-Fa-f]+", TK_HEXNUM},   // hexadecimal number
+  {"$(eax|ax|ah|al|ebx|bx|bh|bl|ecx|cx|ch|cl|edx|dx|dh|dl|esp|ebp|esi|edi|sp|bp|si|di)", TK_REG},
   {"\\+", '+'},         // plus
   {"\\*", '*'},         // mul
   {"-", '-'},           // minus
@@ -99,14 +101,30 @@ static bool make_token(char *e) {
 				break;
 			case TK_NOTYPE:
 				break;
-			case TK_NUM:
-				tokens[nr_token].type = TK_NUM;
+			case TK_DECNUM:
+				tokens[nr_token].type = TK_DECNUM;
 				if (substr_len >= 32) {
+					printf("The length of the number is too long.\n");
 					assert(0);
 				}
 				strncpy(tokens[nr_token].str, substr_start, substr_len);
 				nr_token++;
 				break;
+			case TK_HEXNUM:
+				tokens[nr_token].type = TK_HEXNUM;
+				if (substr_len >= 32) {
+					printf("The length of the hex number is too long.\n");
+					assert(0);
+				}
+				strncpy(tokens[nr_token].str, substr_start, substr_len);
+				nr_token++;
+				break;
+			case TK_REG:
+				tokens[nr_token].type = TK_REG;
+				strncpy(tokens[nr_token].str, substr_start,substr_len);
+				nr_token++;
+				break;
+			
 
 
           default: TODO();
@@ -176,7 +194,7 @@ static int dominant_operator(int p, int q) {
 	bool init_flag = false, parenthethese_flag = false;
 	for(int i = p; i <= q; i++) {
 		switch (tokens[i].type){
-			case TK_NUM:
+			case TK_DECNUM:
 				break;
 			case '+': case '-':
 			case '*': case '/':
