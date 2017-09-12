@@ -7,9 +7,9 @@
 #include <regex.h>
 #include <stdlib.h>
 
-#define OPERNUM 4
+#define OPERNUM 10
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_UNEQ, TK_DECNUM, TK_HEXNUM, TK_REG, TK_AND, TK_OR
+  TK_NOTYPE = 256, TK_EQ, TK_UNEQ, TK_DECNUM, TK_HEXNUM, TK_REG, TK_AND, TK_OR, TK_DEREF
 
   /* TODO: Add more token types */
 
@@ -129,7 +129,7 @@ static bool make_token(char *e) {
 				break;
 			case TK_REG:
 				tokens[nr_token].type = TK_REG;
-				strncpy(tokens[nr_token].str, substr_start,substr_len);
+				strncpy(tokens[nr_token].str, substr_start + 1,substr_len - 1);
 				nr_token++;
 				break;
 			
@@ -178,22 +178,28 @@ static bool check_parentheses(int p, int q){
 	return false;
 }
 
-static char operators[]={'+', '-', '*', '/'};
+static int operators[]={'!', '+', '-', '*', '/', TK_EQ, TK_UNEQ, TK_AND, TK_OR, TK_DEREF};
 
-static int get_operator_index(char oper){
+static int get_operator_index(int oper){
 	for(int i = 0; i < OPERNUM; i++){
 		if (oper == operators[i]){
 			return i;
-		}
-	}
+	 	}
+	} 
 	assert(0);
 }
 
 int operators_priority[][OPERNUM] = {
-	{1, 1, 0, 0},
-	{1, 1, 0, 0},
-	{1, 1, 1, 1},
-	{1, 1, 1, 1}
+	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+	{0, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 };
 
 static int dominant_operator(int p, int q) {
@@ -201,14 +207,19 @@ static int dominant_operator(int p, int q) {
 	int dopr_index = -1;
 	bool init_flag = false, parenthethese_flag = false;
 	for(int i = p; i <= q; i++) {
-		switch (tokens[i].type){
+	 	switch (tokens[i].type){
 			case TK_DECNUM:
+			case TK_HEXNUM:
+			case TK_REG:
 				break;
 			case '+': case '-':
 			case '*': case '/':
-				if (!parenthethese_flag) {
-					if (init_flag) {
-						if (operators_priority[get_operator_index(dopr)][get_operator_index(tokens[i].type)]){
+			case '!': case TK_DEREF:
+			case TK_EQ: case TK_UNEQ: 
+			case TK_AND: case TK_OR:
+	 			if (!parenthethese_flag) {
+	 				if (init_flag) {
+	 					if (operators_priority[get_operator_index(dopr)][get_operator_index(tokens[i].type)]){
 							dopr = tokens[i].type;
 							dopr_index = i;
 						}
@@ -236,16 +247,33 @@ uint32_t eval(int p, int q) {
     /* Bad expression */
 	printf("Bad Expression!\n");
 	assert(0);
-  }
+  } 
   else if (p == q) {
     /* Single token.
      * For now this token should be a number.
      * Return the value of the number.
-     */
-	return atoi(tokens[p].str);
-  }
+      */
+	if (tokens[p].type == TK_DECNUM) {
+		return atoi(tokens[p].str);
+	}else if(tokens[p].type == TK_HEXNUM) {
+		return strtol(tokens[p].str, NULL, 16);
+	}else if(tokens[p].type == TK_REG) {
+		for (int i = R_EAX; i <= R_EDI; i++) {
+			if (strcmp(regsl[i], tokens[p].str)) {
+				return reg_l(i);
+			} else if (strcmp(regsw[i], tokens[p].str)) {
+				return reg_w(i);
+			} else if (strcmp(regsb[i], tokens[p].str))	{
+				return reg_b(i);
+			}
+		}
+		if (strcmp(tokens[p].str, "eip")) {
+			return cpu.eip;
+		}
+	}
+  } 
   else if (check_parentheses(p, q) == true) {
-    /* The expression is surrounded by a matched pair of parentheses.
+    /*  The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
      */
     return eval(p + 1, q - 1);
@@ -260,23 +288,30 @@ uint32_t eval(int p, int q) {
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': return val1 / val2;
+	  case '!': return !val2;
+	  case TK_EQ: return val1 == val2;
+	  case TK_UNEQ: return val1 != val2;
+	  case TK_AND: return val1 && val2;
+	  case TK_OR: return val1 || val2;
+	  case TK_DEREF: return vaddr_read(val2, 4);
       default: assert(0);
     }
-  }
+  } 
+  assert(0);
 }
 
 uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+  if ( !make_token(e)) {
     *success = false;
     return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  //for (i = 0; i < nr_token; i ++) {
-	//if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == certain type) ) {
-      //tokens[i].type = DEREF;
-    //}
-  //}
+  for (int i = 0; i < nr_token; i ++) {
+	if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_DECNUM && tokens[i -1].type != TK_HEXNUM && tokens[i].type != TK_REG)) ) {
+      tokens[i].type = TK_DEREF;
+    }
+  }
 
   return eval(0, nr_token - 1);
 
