@@ -131,7 +131,7 @@ static bool make_token(char *e) {
 				tokens[nr_token].type = TK_REG;
 				strncpy(tokens[nr_token].str, substr_start + 1,substr_len - 1);
 				tokens[nr_token].str[substr_len - 1] = '\0';
-				printf("tokens[%d].str = %s\n", nr_token, tokens[nr_token].str);
+				//printf("tokens[%d].str = %s\n", nr_token, tokens[nr_token].str);
 				nr_token++;
 				break;
 			
@@ -260,7 +260,7 @@ uint32_t eval(int p, int q) {
 	}else if(tokens[p].type == TK_HEXNUM) {
 		return strtol(tokens[p].str, NULL, 16);
 	}else if(tokens[p].type == TK_REG) {
-		printf("reg: %s\n", tokens[p].str);
+		//printf("reg: %s\n", tokens[p].str);
 		for (int i = R_EAX; i <= R_EDI; i++) {
 			if (strcmp(regsl[i], tokens[p].str) == 0) {
 				return reg_l(i);
