@@ -9,7 +9,7 @@
 
 #define OPERNUM 4
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_DECNUM, TK_HEXNUM, TK_REG
+  TK_NOTYPE = 256, TK_EQ, TK_UNEQ, TK_DECNUM, TK_HEXNUM, TK_REG, TK_AND, TK_OR
 
   /* TODO: Add more token types */
 
@@ -34,7 +34,11 @@ static struct rule {
   {"/", '/'},           // div
   {"\\(", '('},           // left parenthesis
   {"\\)", ')'},           // right parenthesis
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},         // equal
+  {"!=", TK_UNEQ},         // unequal
+  {"&&", TK_AND},          // and
+  {"||", TK_OR},        //or
+  {"!", '!'}            // not
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -96,7 +100,11 @@ static bool make_token(char *e) {
 			case '/':
 			case '(':
 			case ')':
+			case '!':
 			case TK_EQ:
+			case TK_UNEQ:
+			case TK_AND:
+			case TK_OR:
 				tokens[nr_token++].type = rules[i].token_type;
 				break;
 			case TK_NOTYPE:
