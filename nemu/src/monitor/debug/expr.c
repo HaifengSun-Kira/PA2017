@@ -206,7 +206,7 @@ int operators_priority[][OPERNUM] = {
 };
 
 static int dominant_operator(int p, int q) {
-	char dopr = '@';
+	int dopr = '@';
 	int dopr_index = -1;
 	bool init_flag = false, parenthethese_flag = false;
 	for(int i = p; i <= q; i++) {
