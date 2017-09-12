@@ -188,6 +188,7 @@ static int get_operator_index(int oper){
 			return i;
 	 	}
 	} 
+	printf("Wrong Operator! %d\n", oper);
 	assert(0);
 }
 
@@ -201,7 +202,7 @@ int operators_priority[][OPERNUM] = {
 	{0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
 	{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
 	{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
-	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 1, 1, 1, 1, 1, 1, 1, 1, 0}
 };
 
 static int dominant_operator(int p, int q) {
