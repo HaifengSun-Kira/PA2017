@@ -258,6 +258,7 @@ uint32_t eval(int p, int q) {
 	}else if(tokens[p].type == TK_HEXNUM) {
 		return strtol(tokens[p].str, NULL, 16);
 	}else if(tokens[p].type == TK_REG) {
+		printf("reg: %s\n", tokens[p].str);
 		for (int i = R_EAX; i <= R_EDI; i++) {
 			if (strcmp(regsl[i], tokens[p].str)) {
 				return reg_l(i);
