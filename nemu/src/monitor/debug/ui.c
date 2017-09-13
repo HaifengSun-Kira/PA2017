@@ -53,7 +53,7 @@ static int cmd_p(char *args) {
 	bool success = true;
 	uint32_t result = expr(args, &success);
     if (success){
-		printf("result: 0x%-8x\n", result);
+		printf("result: 0x%-8x  |  %d\n", result, result);
 	} else {
 		printf("Bad Expression!!!\n");
 	}
