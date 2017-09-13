@@ -50,3 +50,28 @@ bool free_wp(int NO) {
 	return false;
 }
 
+bool chexk_wp() {
+	bool flag = false;
+	for (WP * p =  head; p; p = p -> next) {
+		bool success = true;
+		uint32_t new_value = expr(p -> expr, &success);
+		if (success) {
+			if (new_value != p -> original_value) {
+				printf("\nWatchpoint %d : %s\n", p -> NO, p -> expr);
+				printf("\nOld value = %-8x  |  %d\n", p -> original_value, p -> original_value);
+				printf("New value = %-8x  |  %d\n", new_value, new_value);
+				p -> original_value = new_value;
+				flag = true;
+			}
+		}
+
+	}
+	return flag;
+}
+
+void list_wp() {
+	printf("NUM\tExpr\n");
+	for(WP * p = head; p; p = p -> next) {
+		printf("%-3d\t%s\n", p -> NO, p -> expr);
+	}
+}

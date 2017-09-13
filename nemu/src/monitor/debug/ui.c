@@ -122,9 +122,9 @@ static int cmd_info(char *args) {
 		}
 		printf("eip : %x\n", cpu.eip);
 	} else if (strcmp("w", kind) == 0) {
-
+		list_wp();
 	} else {
-		printf("Error Command!");
+		printf("Info command doesn't support %s option.\n", kind);
 	}
 	return 0;
 }
