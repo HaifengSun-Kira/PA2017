@@ -5,11 +5,11 @@
 
 typedef struct watchpoint {
   int NO;
-  char * expr;
-  uint32_t original_value;
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
+  char * expr;
+  uint32_t original_value;
 
 
 } WP;

@@ -50,7 +50,7 @@ bool free_wp(int NO) {
 	return false;
 }
 
-bool chexk_wp() {
+bool check_wp() {
 	bool flag = false;
 	for (WP * p =  head; p; p = p -> next) {
 		bool success = true;
