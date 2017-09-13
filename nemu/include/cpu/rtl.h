@@ -149,9 +149,8 @@ static inline void rtl_push(const rtlreg_t* src1) {
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
-	//t0 = reg_l(R_ESP);
-	//rtl_lm(dest, &t0, 4);
-	*dest = vaddr_read(reg_l(R_ESP), 4);
+	rtl_lm(dest, (rtlreg_t *)(& reg_l(R_ESP)), 4);
+	//*dest = vaddr_read(reg_l(R_ESP), 4);
 	reg_l(R_ESP) += 4;
 }
 
