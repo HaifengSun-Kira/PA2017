@@ -83,6 +83,26 @@ static int cmd_x(char* args) {
 	return 0;
 }
 
+static int cmd_w(char * args) {
+	bool success = true;
+	uint32_t temp = expr(args, &success);
+	if (!success) {
+		Log("The expression to set up watchpoint is wrong.");
+		return 0;
+	}
+	WP* p = new_wp();
+	p->expr = (char *)malloc(strlen(args)+1);
+	strcpy(p->expr, args);
+	p->original_value = temp;
+	return 0;
+}	
+
+static int cmd_d(char * args) {
+	char * NO_str = strtok(args, " ");
+	free_wp(atoi(NO_str));
+	return 0;
+}
+
 static int cmd_info(char *args) {
 	char * kind = strtok(args, " ");
 	if (strcmp("r", kind) == 0) {
@@ -115,6 +135,8 @@ static struct {
   { "si", "Execute N instructions.", cmd_si },
   { "x", "x N EXPR. Print consecutive N 4 bytes in hex rom the result of EXPR.", cmd_x },
   { "p", "Calculate the value of the expression EXPR", cmd_p},
+  { "w", "Use the expression to set the watchpoint, pause the program when the value of expr changes.", cmd_w},
+  { "d", "Delete the watchpoint of the NO. N", cmd_d},
   { "info", "Print register status or watchpoint infomation", cmd_info },
   { "q", "Exit NEMU", cmd_q },
 
