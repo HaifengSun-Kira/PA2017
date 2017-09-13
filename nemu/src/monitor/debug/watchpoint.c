@@ -31,22 +31,22 @@ WP* new_wp() {
 	return p;
 }
 
-void free_wp(int NO) {
+bool free_wp(int NO) {
 	if (head->NO == NO) {
 		WP *p =head;
 		head = head->next;
 		p->next = free_;
 		free_ = p;
-		return;
+		return true;
 	} 
 	for (WP *prev = head, *p = head->next; p ; prev = p, p = p->next) {
 		if (p->NO == NO) {
 			prev->next = p->next;
 			p->next = free_;
 			free_ = p;
-			return;
+			return true;
 	 	}
 	} 
-	printf("There is no watchpoint NO.%d in use.\n", NO);
+	return false;
 }
 

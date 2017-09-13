@@ -94,12 +94,18 @@ static int cmd_w(char * args) {
 	p->expr = (char *)malloc(strlen(args)+1);
 	strcpy(p->expr, args);
 	p->original_value = temp;
+	printf("Watchpoint %d : %s\n", p->NO, p->expr);
 	return 0;
 }	
 
 static int cmd_d(char * args) {
 	char * NO_str = strtok(args, " ");
-	free_wp(atoi(NO_str));
+	bool success = free_wp(atoi(NO_str));
+	if (success) {
+		printf("Delete watchpoint %s\n", NO_str);
+	} else {
+		printf("There is no watchpoint %s in use.\n", NO_str);
+	}
 	return 0;
 }
 
