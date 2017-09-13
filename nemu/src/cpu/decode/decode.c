@@ -39,7 +39,7 @@ static inline make_DopHelper(SI) {
    op->simm = ???
    */
   if (op->width == 4) {
-	op->simm = (int32_t)instr_fetch(&cpu.eip, 4);
+	op->simm = instr_fetch(eip, 4);
   } else {
 	TODO();
   }
