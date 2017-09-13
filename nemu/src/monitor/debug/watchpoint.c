@@ -58,8 +58,8 @@ bool check_wp() {
 		if (success) {
 			if (new_value != p -> original_value) {
 				printf("\nWatchpoint %d : %s\n", p -> NO, p -> expr);
-				printf("\nOld value = %-8x  |  %d\n", p -> original_value, p -> original_value);
-				printf("New value = %-8x  |  %d\n", new_value, new_value);
+				printf("\nOld value = 0x%-8x  |  %d\n", p -> original_value, p -> original_value);
+				printf("New value = 0x%-8x  |  %d\n", new_value, new_value);
 				p -> original_value = new_value;
 				flag = true;
 			}
