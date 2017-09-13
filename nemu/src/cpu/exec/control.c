@@ -31,8 +31,12 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  TODO();
-
+  if(decoding.is_operand_size_16) {
+	rtl_pop(&cpu.eip);
+	cpu.eip = cpu.eip & 0x0000ffff;
+  } else {
+	rtl_pop(&cpu.eip);
+  }
   print_asm("ret");
 }
 
