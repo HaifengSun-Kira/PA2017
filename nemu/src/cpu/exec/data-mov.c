@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov) {
-	assert(cpu.eip == 0x100005);
+	assert(cpu.eip == 0x100000);
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }
