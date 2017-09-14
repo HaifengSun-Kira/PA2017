@@ -29,6 +29,7 @@ make_EHelper(call) {
 	rtl_push(&cpu.eip);
 	//cpu.eip = (cpu.eip + id_dest -> simm) & 0x0000ffff;
   } else {
+	  assert(cpu.eip == 0x100000a);
 	rtl_push(&cpu.eip);
 	//cpu.eip += id_dest -> simm;
   }
@@ -46,6 +47,7 @@ make_EHelper(ret) {
 	rtl_pop(&cpu.eip);
   }
   decoding.is_jmp = 1;
+  decoding.jmp_eip = cpu.eip;
   print_asm("ret");
 }
 
