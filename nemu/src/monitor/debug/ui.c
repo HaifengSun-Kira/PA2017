@@ -118,6 +118,7 @@ static int cmd_info(char *args) {
 			}
 		}
 		printf("eip : %x\n", cpu.eip);
+		printf("CF : %d OF : %d SF : %d ZF : %d IF : %d\n",cpu.eflags.CF, cpu.eflags.OF, cpu.eflags.SF, cpu.eflags.ZF, cpu.eflags.IF);
 	} else if (strcmp("w", kind) == 0) {
 		list_wp();
 	} else {
