@@ -29,7 +29,7 @@ make_EHelper(call) {
 	rtl_push(&cpu.eip);
 	//cpu.eip = (cpu.eip + id_dest -> simm) & 0x0000ffff;
   } else {
-	assert(cpu.eip == 0x100000f);
+	assert(cpu.eip == 0x10000f);
 	rtl_push(&cpu.eip);
 	//cpu.eip += id_dest -> simm;
   }
