@@ -27,7 +27,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"0x[0-9A-Fa-f]+", TK_HEXNUM},   // hexadecimal number
   {"[0-9]+", TK_DECNUM},   // decimal number
-  {"\\$(eax|ax|ah|al|ebx|bx|bh|bl|ecx|cx|ch|cl|edx|dx|dh|dl|esp|ebp|esi|edi|sp|bp|si|di)", TK_REG},
+  {"\\$(eip|eax|ax|ah|al|ebx|bx|bh|bl|ecx|cx|ch|cl|edx|dx|dh|dl|esp|ebp|esi|edi|sp|bp|si|di)", TK_REG},
   {"\\+", '+'},         // plus
   {"\\*", '*'},         // mul
   {"-", '-'},           // minus
