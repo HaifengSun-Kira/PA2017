@@ -39,10 +39,10 @@ make_EHelper(call) {
 
 make_EHelper(ret) {
   if(decoding.is_operand_size_16) {
-	rtl_pop(&decoding.seq_eip);
-	decoding.seq_eip &= 0x0000ffff;
+	rtl_pop(&decoding.jmp_eip);
+	decoding.jmp_eip &= 0x0000ffff;
   } else {
-	rtl_pop(&decoding.seq_eip);
+	rtl_pop(&decoding.jmp_eip);
   }
   decoding.is_jmp = 1;
   print_asm("ret");
