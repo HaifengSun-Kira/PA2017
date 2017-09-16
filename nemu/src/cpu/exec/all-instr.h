@@ -9,6 +9,7 @@ make_EHelper(call);
 make_EHelper(ret);
 
 
+make_EHelper(add);
 make_EHelper(sub);
 
 make_EHelper(and);
