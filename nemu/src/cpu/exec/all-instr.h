@@ -8,6 +8,7 @@ make_EHelper(lea);
 
 make_EHelper(call);
 make_EHelper(ret);
+make_EHelper(jcc);
 
 
 make_EHelper(add);
