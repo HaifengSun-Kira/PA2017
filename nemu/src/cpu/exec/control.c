@@ -45,7 +45,6 @@ make_EHelper(ret) {
 	rtl_pop(&decoding.seq_eip);
   }
   decoding.is_jmp = 1;
-  decoding.jmp_eip = decoding.seq_eip;
   print_asm("ret");
 }
 
