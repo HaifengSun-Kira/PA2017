@@ -29,8 +29,13 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  TODO();
-
+  reg_l(R_ESP) = reg_l(R_EBP);
+  rtl_pop(&t0);
+  if (decoding.is_operand_size_16) {
+	  reg_w(R_BP) = (uint16_t) t0;
+  } else {
+	  reg_l(R_EBP) = t0;
+  }
   print_asm("leave");
 }
 
