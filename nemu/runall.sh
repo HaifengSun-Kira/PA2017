@@ -27,12 +27,12 @@ for file in $files; do
   $nemu -b -l $ori_log $file &> $logfile
 
   if (grep 'nemu: HIT GOOD TRAP' $logfile > /dev/null) then
-    /bin/echo -e "\033[1;32mPASS!\033[0m"
+    echo -e "\033[1;32mPASS!\033[0m"
     rm $logfile
   else
-    /bin/echo -e "\033[1;31mFAIL!\033[0m see $logfile for more information"
+    echo -e "\033[1;31mFAIL!\033[0m see $logfile for more information"
     if (test -e $ori_log) then
-      /bin/echo -e "\n\n===== the original log.txt =====\n" >> $logfile
+      echo -e "\n\n===== the original log.txt =====\n" >> $logfile
       cat $ori_log >> $logfile
     fi
   fi
