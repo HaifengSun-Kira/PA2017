@@ -47,15 +47,14 @@ make_EHelper(or) {
 }
 
 make_EHelper(sar) {
-  if(id_src->type == OP_TYPE_IMM) {
-	  if(id_dest->val == 0xffff)
-	printf("sari 0x%x  0x%x\n",id_dest->val, id_src->imm);
-	rtl_sari(&t2, &id_dest->val, id_src->imm);
-	  if(id_dest->val == 0xffff)
-	printf("t2 0x%-8x",t2);
-  } else {
+  if(id_dest->width == 4) {
 	rtl_sar(&t2, &id_dest->val, &id_src->val);
+  } else if(id_dest->width == 2) {
+	t2 = ((int16_t)id_dest->val) >> id_src->val;
+  } else {
+	t2 = ((int8_t)id_dest->val) >> id_src->val;
   }
+
   operand_write(id_dest, &t2);
   // unnecessary to update CF and OF in NEMU
 
