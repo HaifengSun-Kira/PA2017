@@ -8,6 +8,8 @@ make_EHelper(pop);
 make_EHelper(lea);
 make_EHelper(leave);
 make_EHelper(cltd);
+make_EHelper(in);
+make_EHelper(out);
 
 make_EHelper(call);
 make_EHelper(call_rm);
