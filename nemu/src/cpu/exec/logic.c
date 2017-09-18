@@ -47,7 +47,11 @@ make_EHelper(or) {
 }
 
 make_EHelper(sar) {
-  rtl_sar(&t2, &id_dest->val, &id_src->val);
+  if(id_src->type == OP_TYPE_IMM) {
+	rtl_sari(&t2, &id_dest->val, id_src->val);
+  } else {
+	rtl_sar(&t2, &id_dest->val, &id_src->val);
+  }
   operand_write(id_dest, &t2);
   // unnecessary to update CF and OF in NEMU
 
