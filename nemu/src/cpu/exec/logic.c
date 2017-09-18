@@ -48,8 +48,8 @@ make_EHelper(or) {
 
 make_EHelper(sar) {
   if(id_src->type == OP_TYPE_IMM) {
-	  printf("sari\n");
-	rtl_sari(&t2, &id_dest->val, id_src->simm);
+	printf("sari 0x%x  0x%x\n",id_dest->val, id_src->imm);
+	rtl_sari(&t2, &id_dest->val, id_src->imm);
   } else {
 	rtl_sar(&t2, &id_dest->val, &id_src->val);
   }
