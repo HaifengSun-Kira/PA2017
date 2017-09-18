@@ -8,6 +8,7 @@ make_EHelper(pop);
 make_EHelper(lea);
 make_EHelper(leave);
 make_EHelper(cltd);
+make_EHelper(cwtl);
 make_EHelper(in);
 make_EHelper(out);
 
