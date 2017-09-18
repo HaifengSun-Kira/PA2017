@@ -154,6 +154,16 @@ void difftest_step(uint32_t eip) {
 	&& cpu.eip == r.eip) {
   } else {
 	diff = true;
+	printf("Instrction behavior wrong!\n");
+	printf("nemu.eax:%-8x\tqemu.eax:%-8x\n", cpu.eax, r.eax);
+	printf("nemu.ebx:%-8x\tqemu.ebx:%-8x\n", cpu.ebx, r.ebx);
+	printf("nemu.ecx:%-8x\tqemu.ecx:%-8x\n", cpu.ecx, r.ecx);
+	printf("nemu.edx:%-8x\tqemu.edx:%-8x\n", cpu.edx, r.edx);
+	printf("nemu.esi:%-8x\tqemu.esi:%-8x\n", cpu.esi, r.esi);
+	printf("nemu.edi:%-8x\tqemu.edi:%-8x\n", cpu.edi, r.edi);
+	printf("nemu.ebp:%-8x\tqemu.ebp:%-8x\n", cpu.ebp, r.ebp);
+	printf("nemu.esp:%-8x\tqemu.esp:%-8x\n", cpu.esp, r.esp);
+	printf("nemu.eip:%-8x\tqemu.eip:%-8x\n", cpu.eip, r.eip);
   }
 
   if (diff) {
