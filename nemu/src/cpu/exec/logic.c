@@ -50,9 +50,13 @@ make_EHelper(sar) {
   if(id_dest->width == 4) {
 	rtl_sar(&t2, &id_dest->val, &id_src->val);
   } else if(id_dest->width == 2) {
-	t2 = ((int16_t)id_dest->val) >> id_src->val;
+	t0 = (int16_t) id_dest->val;
+	rtl_sar(&t2, &t0, &id_src->val);
+	//t2 = ((int16_t)id_dest->val) >> id_src->val;
   } else {
-	t2 = ((int8_t)id_dest->val) >> id_src->val;
+	t0 = (int8_t) id_dest->val;
+	rtl_sar(&t2, &t0, &id_src->val);
+	//t2 = ((int8_t)id_dest->val) >> id_src->val;
   }
 
   operand_write(id_dest, &t2);
