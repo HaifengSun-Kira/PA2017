@@ -48,7 +48,7 @@ make_EHelper(or) {
 
 make_EHelper(sar) {
   if(id_src->type == OP_TYPE_IMM) {
-	rtl_sari(&t2, &id_dest->val, id_src->val);
+	rtl_sari(&t2, &id_dest->val, id_src->simm);
   } else {
 	rtl_sar(&t2, &id_dest->val, &id_src->val);
   }
