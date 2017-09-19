@@ -19,7 +19,7 @@ static inline void rtl_li(rtlreg_t* dest, uint32_t imm) {
 #define c_xor(a, b) ((a) ^ (b))
 #define c_shl(a, b) ((a) << (b))
 #define c_shr(a, b) ((a) >> (b))
-#define c_sar(a, b) (((int32_t)(a)) >> (b))
+#define c_sar(a, b) ((int32_t)((a) >> (b)))
 #define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))
 #define c_sltu(a, b) ((a) < (b))
 
@@ -162,17 +162,17 @@ static inline void rtl_pop(rtlreg_t* dest) {
 
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)
-  TODO();
+	*dest = *src1 == 0 ? 1 : 0;
 }
 
 static inline void rtl_eqi(rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   // dest <- (src1 == imm ? 1 : 0)
-  TODO();
+	*dest = *src1 == imm ? 1 : 0;
 }
 
 static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 != 0 ? 1 : 0)
-  TODO();
+	*dest = *src1 != 0 ? 1 : 0;
 }
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
