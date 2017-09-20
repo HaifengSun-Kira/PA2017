@@ -48,15 +48,15 @@ make_EHelper(or) {
 
 make_EHelper(sar) {
   if(id_dest->width == 4) {
-	printf("sar4 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
+//	printf("sar4 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
 	rtl_sar(&t2, &id_dest->val, &id_src->val);
   } else if(id_dest->width == 2) {
-	printf("sar2 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
+//	printf("sar2 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
 	t0 = (int16_t) id_dest->val;
 	rtl_sar(&t2, &t0, &id_src->val);
 	//t2 = ((int16_t)id_dest->val) >> id_src->val;
   } else {
-	printf("sar1 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
+//	printf("sar1 0x%-8x 0x%-2x\n", id_dest->val, id_src->val);
 	t0 = (int8_t) id_dest->val;
 	rtl_sar(&t2, &t0, &id_src->val);
 	//t2 = ((int8_t)id_dest->val) >> id_src->val;
