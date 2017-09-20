@@ -19,7 +19,7 @@ static inline void rtl_li(rtlreg_t* dest, uint32_t imm) {
 #define c_xor(a, b) ((a) ^ (b))
 #define c_shl(a, b) ((a) << (b))
 #define c_shr(a, b) ((a) >> (b))
-#define c_sar(a, b) ((int32_t)((a) >> (b)))
+#define c_sar(a, b) ((int32_t)(a) >> (b))
 #define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))
 #define c_sltu(a, b) ((a) < (b))
 
