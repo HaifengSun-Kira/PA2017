@@ -68,6 +68,15 @@ make_EHelper(sar) {
   print_asm_template2(sar);
 }
 
+make_EHelper(rol) {
+	rtl_shri(&t2, &id_dest->val, id_dest->val * 8 - id_src->val);
+	rtl_shl(&t3, &id_dest->val, &id_src->val);
+	rtl_or(&t1, &t2, &t3);
+	operand_write(id_dest, &t1);
+    
+	print_asm_template2(rol);
+}
+
 make_EHelper(shl) {
   rtl_shl(&t2, &id_dest->val, &id_src->val);
   operand_write(id_dest, &t2);
