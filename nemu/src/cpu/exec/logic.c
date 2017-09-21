@@ -74,16 +74,16 @@ make_EHelper(rol) {
 	rtl_or(&t1, &t2, &t3);
 	operand_write(id_dest, &t1);
 
-	if (id_src->val == 1) {
-		t2 = (t1 >> (id_dest->width * 8 -1)) & 0x1;
-		rtl_get_CF(&t0);
-		if (t2 == t0) {
-			rtl_set_OF(&tzero);
-		} else {
-			t2 = 1;
-			rtl_set_OF(&t2);
-		}
-	}
+//	if (id_src->val == 1) {
+//		t2 = (t1 >> (id_dest->width * 8 -1)) & 0x1;
+//		rtl_get_CF(&t0);
+//		if (t2 == t0) {
+//			rtl_set_OF(&tzero);
+//		} else {
+//			t2 = 1;
+//			rtl_set_OF(&t2);
+//		}
+//	}
     
 	print_asm_template2(rol);
 }
