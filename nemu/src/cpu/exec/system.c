@@ -51,8 +51,9 @@ make_EHelper(iret) {
   rtl_pop((rtlreg_t *) &cpu.eflags_ini);
   decoding.jmp_eip = cpu.eip;
   decoding.is_jmp = true;
+  printf("before print iret\n");
   print_asm("iret");
-  printf("after iret");
+  printf("after print iret\n");
 }
 
 uint32_t pio_read(ioaddr_t, int);
