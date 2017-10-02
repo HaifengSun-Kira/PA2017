@@ -43,6 +43,7 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
+	printf("in iret!\n");
   if (decoding.is_operand_size_16) {
 	Assert(0, "iret operand size is 16");
   } 
