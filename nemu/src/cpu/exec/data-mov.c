@@ -60,6 +60,7 @@ make_EHelper(popa) {
 	rtl_pop((rtlreg_t *)&cpu.ecx);
 	rtl_pop((rtlreg_t *)&cpu.eax);
   }
+  Assert(cpu.eax == 1, "cpu.eax != 1");
   print_asm("popa");
 }
 
