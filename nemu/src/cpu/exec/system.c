@@ -6,10 +6,10 @@ void diff_test_skip_nemu();
 make_EHelper(lidt) {
   if (decoding.is_operand_size_16) {
 	cpu.idtr.limit = vaddr_read(id_dest->addr, 2);
-	cpu.idtr.base = vaddr_read(id_dest->addr + 16, 4) & 0x00ffffff;
+	cpu.idtr.base = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
   } else {
 	cpu.idtr.limit = vaddr_read(id_dest->addr, 2);
-	cpu.idtr.base = vaddr_read(id_dest->addr + 16, 4);
+	cpu.idtr.base = vaddr_read(id_dest->addr + 2, 4);
 	printf("cpu.idtr.limit 0x%-4x\n", cpu.idtr.limit);
 	printf("cpu.idtr.base 0x%-8x\n", cpu.idtr.base);
   }
