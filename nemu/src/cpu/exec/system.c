@@ -43,24 +43,16 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-	printf("in iret!\n");
   if (decoding.is_operand_size_16) {
 	Assert(0, "iret operand size is 16");
   } 
-	printf("in iret1!\n");
   rtl_pop((rtlreg_t *) &cpu.eip);
-	printf("in iret2!\n");
   rtl_pop((rtlreg_t *) &cpu.cs);
-	printf("in iret3!\n");
   rtl_pop((rtlreg_t *) &cpu.eflags_ini);
-
-	printf("in iret4!\n");
   decoding.jmp_eip = cpu.eip;
-	printf("decoding.jmp_eip=0x%-8x\n", cpu.eip);
   decoding.is_jmp = true;
-	printf("in iret6!\n");
-
   print_asm("iret");
+  printf("after iret");
 }
 
 uint32_t pio_read(ioaddr_t, int);
