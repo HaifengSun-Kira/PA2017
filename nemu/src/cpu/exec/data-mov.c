@@ -23,15 +23,16 @@ make_EHelper(pop) {
 
 make_EHelper(pusha) {	
   if (decoding.is_operand_size_16) {
-	t0 = cpu.gpr[4]._16;
-	rtl_push((rtlreg_t *)&cpu.gpr[0]._16);
-	rtl_push((rtlreg_t *)&cpu.gpr[1]._16);
-	rtl_push((rtlreg_t *)&cpu.gpr[2]._16);
-	rtl_push((rtlreg_t *)&cpu.gpr[3]._16);
-	rtl_push(&t0);
-	rtl_push((rtlreg_t *)&cpu.gpr[5]._16);
-	rtl_push((rtlreg_t *)&cpu.gpr[6]._16);
-	rtl_push((rtlreg_t *)&cpu.gpr[7]._16);
+	Assert(0, "pusha operand size is 16");
+	//t0 = cpu.gpr[4]._16;
+	//rtl_push((rtlreg_t *)&cpu.gpr[0]._16);
+	//rtl_push((rtlreg_t *)&cpu.gpr[1]._16);
+	//rtl_push((rtlreg_t *)&cpu.gpr[2]._16);
+	//rtl_push((rtlreg_t *)&cpu.gpr[3]._16);
+	//rtl_push(&t0);
+	//rtl_push((rtlreg_t *)&cpu.gpr[5]._16);
+	//rtl_push((rtlreg_t *)&cpu.gpr[6]._16);
+	//rtl_push((rtlreg_t *)&cpu.gpr[7]._16);
   } else {
 	t0 = cpu.esp;
 	rtl_push((rtlreg_t *)&cpu.eax);
