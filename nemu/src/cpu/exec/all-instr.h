@@ -4,6 +4,7 @@ make_EHelper(mov);
 make_EHelper(movzx);
 make_EHelper(movsx);
 make_EHelper(pusha);
+make_EHelper(popa);
 make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(lea);
@@ -14,6 +15,7 @@ make_EHelper(cwtl);
 
 make_EHelper(lidt);
 make_EHelper(int);
+make_EHelper(iret);
 make_EHelper(in);
 make_EHelper(out);
 

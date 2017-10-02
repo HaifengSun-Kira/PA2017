@@ -47,8 +47,18 @@ make_EHelper(pusha) {
 }
 
 make_EHelper(popa) {
-  TODO();
-
+  if (decoding.is_operand_size_16) {
+	Assert(0, "popa operand size is 16");
+  } else {
+	rtl_pop((rtlreg_t *)&cpu.edi);
+	rtl_pop((rtlreg_t *)&cpu.esi);
+	rtl_pop((rtlreg_t *)&cpu.ebp);
+	rtl_pop(&t0);
+	rtl_pop((rtlreg_t *)&cpu.ebx);
+	rtl_pop((rtlreg_t *)&cpu.edx);
+	rtl_pop((rtlreg_t *)&cpu.ecx);
+	rtl_pop((rtlreg_t *)&cpu.eax);
+  }
   print_asm("popa");
 }
 

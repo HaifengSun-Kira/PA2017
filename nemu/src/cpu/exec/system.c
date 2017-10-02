@@ -10,8 +10,6 @@ make_EHelper(lidt) {
   } else {
 	cpu.idtr.limit = vaddr_read(id_dest->addr, 2);
 	cpu.idtr.base = vaddr_read(id_dest->addr + 2, 4);
-	printf("cpu.idtr.limit 0x%-4x\n", cpu.idtr.limit);
-	printf("cpu.idtr.base 0x%-8x\n", cpu.idtr.base);
   }
   print_asm_template1(lidt);
 }
@@ -45,7 +43,12 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-  TODO();
+  if (decoding.is_operand_size_16) {
+	Assert(0, "iret operand size is 16");
+  } 
+  rtl_pop((rtlreg_t *) &cpu.eip);
+  rtl_pop((rtlreg_t *) &cpu.cs);
+  rtl_pop((rtlreg_t *) &cpu.eflags_ini);
 
   print_asm("iret");
 }
