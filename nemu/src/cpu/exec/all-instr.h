@@ -9,6 +9,10 @@ make_EHelper(lea);
 make_EHelper(leave);
 make_EHelper(cltd);
 make_EHelper(cwtl);
+
+
+make_EHelper(lidt);
+make_EHelper(int);
 make_EHelper(in);
 make_EHelper(out);
 
