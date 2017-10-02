@@ -50,7 +50,7 @@ make_EHelper(iret) {
   rtl_pop((rtlreg_t *) &cpu.cs);
   rtl_pop((rtlreg_t *) &cpu.eflags_ini);
   decoding.jmp_eip = cpu.eip;
-  decoding.is_jmp = true;
+  decoding.is_jmp = 1;
   printf("before print iret\n");
   print_asm("iret");
   printf("after print iret\n");
