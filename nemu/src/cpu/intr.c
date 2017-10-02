@@ -8,6 +8,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
 	rtl_push((rtlreg_t *)&cpu.eflags_ini);
 	rtl_push((rtlreg_t *)&cpu.cs);
 	rtl_push((rtlreg_t *)&ret_addr);
+	printf("ret_addr = 0x%-8x\n", ret_addr);
 	uint32_t idt_base = cpu.idtr.base;
 	uint32_t offset = vaddr_read(idt_base + NO * 8, 2);
 	offset += (vaddr_read(idt_base + NO * 8 + 6, 2) << 16);
