@@ -226,7 +226,7 @@ static inline void update_eip(void) {
 void exec_wrapper(bool print_flag) {
 #ifdef DEBUG
   decoding.p = decoding.asm_buf;
-  printf("1 %s\n", decoding.asm_buf);
+  //printf("1 %s\n", decoding.asm_buf);
   decoding.p += sprintf(decoding.p, "%8x:   ", cpu.eip);
 #endif
 
@@ -235,11 +235,11 @@ void exec_wrapper(bool print_flag) {
 
 #ifdef DEBUG
   int instr_len = decoding.seq_eip - cpu.eip;
-  printf("2 %s, instr_len = %d\n", decoding.asm_buf, instr_len);
+  //printf("2 %s, instr_len = %d\n", decoding.asm_buf, instr_len);
   sprintf(decoding.p, "%*.s", 50 - (12 + 3 * instr_len), "");
-  printf("3 %s\n", decoding.asm_buf);
+  //printf("3 %s\n", decoding.asm_buf);
   strcat(decoding.asm_buf, decoding.assembly);
-  printf("4 %s\n", decoding.asm_buf);
+  //printf("4 %s\n", decoding.asm_buf);
   Log_write("%s\n", decoding.asm_buf);
   if (print_flag) {
     puts(decoding.asm_buf);
