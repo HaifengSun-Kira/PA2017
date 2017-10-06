@@ -3,7 +3,6 @@
 
 
 extern void _halt(int code);
-extern void _putc(char ch);
 extern char _end;
 extern int fs_open(const char *pathname, int flags, int mode);
 extern ssize_t fs_read(int fd, void *buf, size_t len);
@@ -23,35 +22,20 @@ _RegSet* do_syscall(_RegSet *r) {
   switch (a[0]) {
 	case SYS_none: ret = 1;	break;
 	case SYS_write: 	
-		Log("length: %d\n", a[3]);
-		if (a[1] == 1 || a[1] == 2) {
-			for ( int i = 0; i < a[3]; i++ ) {
-				_putc(((char *)a[2])[i]);	
-			}
-			ret = a[3];
-		} else if (a[1] == 0) {
-			ret = 0;
-		} else {
-			ret = fs_write(a[1], (void *)a[2], a[3]);
-		}	
+		//Log("length: %d\n", a[3]);
+		ret = fs_write(a[1], (void *)a[2], a[3]);
 		break;
 	case SYS_open:
 		ret = fs_open((char *)a[1], a[2], a[3]);
 		break;
 	case SYS_read:
-		if (a[1] == 0 || a[1] == 1 || a[1] == 2)
-			ret = 0;
-		else
-			ret = fs_read(a[1], (void *)a[2], a[3]);
+		ret = fs_read(a[1], (void *)a[2], a[3]);
 		break;
 	case SYS_close:
 		ret = fs_close(a[1]);
 		break;
 	case SYS_lseek:
-		if (a[1] == 0 || a[1] == 1 || a[1] == 2)
-			ret = 0;
-		else
-			ret = fs_lseek(a[1], a[2], a[3]);
+		ret = fs_lseek(a[1], a[2], a[3]);
 		break;	
 	case SYS_exit: _halt(a[1]); break;
 	case SYS_brk:
