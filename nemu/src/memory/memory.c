@@ -55,8 +55,20 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if ((((addr ^ (addr + len)) & 0x003ff000) != 0) && (((addr + len) & 0x00000fff) != 0)) {
-	Log("addr: 0x%-8x len: %d", addr, len);
-	Assert(0, "Data cross the page boudary!!!");
+	// Here,the method is not so good, there should be modified!
+	int i;
+	for (i = 1; i < 4; i++)
+		if (((addr + i) & 0x00000fff) == 0)
+			break;
+	if (i == 4) {
+		Log("addr: 0x%-8x len: %d", addr, len);
+		Assert(0, "Data cross the page boudary!!!");
+	}
+	paddr_t paddr = page_translate(addr, false);
+	uint32_t low = paddr_read(paddr, i);
+	paddr = page_translate(addr+i, false);
+	uint32_t high = paddr_read(paddr, len-i);
+	return (high << (i << 3)) + low;
   } else {
     paddr_t paddr = page_translate(addr, false);
     return paddr_read(paddr, len);
@@ -65,7 +77,19 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   if ((((addr ^ (addr + len)) & 0x003ff000) != 0) && (((addr + len) & 0x00000fff) != 0)) {
-	Assert(0, "Data cross the page boudary!!!");
+	// Here,the method is not so good, there should be modified!
+	int i;
+	for (i = 1; i < 4; i++)
+		if (((addr + i) & 0x00000fff) == 0)
+			break;
+	if (i == 4) {
+		Log("addr: 0x%-8x len: %d", addr, len);
+		Assert(0, "Data cross the page boudary!!!");
+	}
+	paddr_t paddr = page_translate(addr, true);
+	paddr_write(paddr, i, (data & (~0u >> ((4 - i) << 3))));
+	paddr = page_translate(addr+i, true);
+	paddr_write(paddr, len - i, (data >> (i << 3)));
   } else {
     paddr_t paddr = page_translate(addr, true);
     paddr_write(paddr, len, data);
