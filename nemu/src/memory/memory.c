@@ -54,9 +54,20 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  return paddr_read(addr, len);
+  if ((((addr ^ (addr + len)) & 0x003ff000) != 0) && (((addr + len) & 0x00000fff) != 0)) {
+	Assert(0, "Data cross the page boudary!!!");
+  } else {
+    paddr_t paddr = page_translate(addr, false);
+
+    return paddr_read(paddr, len);
+  }
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  paddr_write(addr, len, data);
+  if ((((addr ^ (addr + len)) & 0x003ff000) != 0) && (((addr + len) & 0x00000fff) != 0)) {
+	Assert(0, "Data cross the page boudary!!!");
+  } else {
+    paddr_t paddr = page_translate(addr, true);
+    paddr_write(paddr, len, data);
+  }
 }
