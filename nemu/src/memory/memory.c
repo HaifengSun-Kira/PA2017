@@ -55,10 +55,10 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if ((((addr ^ (addr + len)) & 0x003ff000) != 0) && (((addr + len) & 0x00000fff) != 0)) {
+	Log("addr: 0x%-8x len: %d", addr, len);
 	Assert(0, "Data cross the page boudary!!!");
   } else {
     paddr_t paddr = page_translate(addr, false);
-
     return paddr_read(paddr, len);
   }
 }
