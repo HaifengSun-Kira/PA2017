@@ -1,4 +1,5 @@
 #include <x86.h>
+#include <stdio.h>
 
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
@@ -38,9 +39,9 @@ void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
       for (; pte < pte_end; pte += PGSIZE) {
         *ptab = pte;
         ptab ++;
-      }
-    }
-  }
+       }
+     }
+  } 
 
   set_cr3(kpdirs);
   set_cr0(get_cr0() | CR0_PG);
@@ -66,6 +67,29 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
+	//printf("va: 0x%-8x pa: 0x%-8x\n", (uintptr_t)va, (uintptr_t)pa);
+	int pde_index = PDX(va);
+	//printf("pde_index: %d\n", pde_index);
+	int pte_index = PTX(va);
+	//printf("pte_idex: %d\n", pte_index);
+	PDE * updir = (PDE *)(p->ptr);
+	PTE * uptab;
+	if ((updir[pde_index] & 0x1) == 0){
+		uptab = (PTE *)(void *)(palloc_f());
+		//printf("uptab: 0x%-8x\n", (uintptr_t)uptab);
+		updir[pde_index] = (uintptr_t)uptab | PTE_P;
+		//printf("updir[%d] = 0x%-8x\n", pde_index, (uintptr_t)(updir[pde_index]));
+	} else {
+		uptab = (PTE *)(void *)((uintptr_t)updir[pde_index] & 0xfffff000);
+		//printf("uptab: 0x%-8x\n", (uintptr_t)uptab);
+		//printf("updir[%d] = 0x%-8x\n", pde_index, (uintptr_t)(updir[pde_index]));
+	}
+
+	PTE pte = ((uintptr_t)pa & 0xfffff000) | PTE_P;
+	//printf("pte: 0x%-8x\n", pte);
+	uptab[pte_index] = pte;
+	//printf("uptab[%d] = 0x%-8x\n", pte_index-1, (uintptr_t)(uptab[pte_index-1]));
+	//printf("uptab[%d] = 0x%-8x\n", pte_index, (uintptr_t)(uptab[pte_index]));
 }
 
 void _unmap(_Protect *p, void *va) {
