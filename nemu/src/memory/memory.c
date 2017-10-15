@@ -41,7 +41,10 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 	paddr_t pte_addr = pte_base + ((addr & 0x003ff000) >> 10);
 	uint32_t pte = paddr_read(pte_addr, 4);
 	if ((pte & 0x1) == 0) {
-	  Log("pte: %-8x", pte);
+	  Log("addr: 0x%-8x", addr);
+
+	  Log("pde: 0x%-8x", pde);
+	  Log("pte: 0x%-8x", pte);
 	  Assert(0, "The present bit of pte is wrong!!!");
 	}
 	paddr_t page_base = pte & 0xfffff000;
