@@ -1,10 +1,12 @@
 #include <am.h>
 #include <x86.h>
+#include <stdio.h>
 
 static _RegSet* (*H)(_Event, _RegSet*) = NULL;
 
 void vecsys();
 void vecnull();
+void vectrap();
 
 _RegSet* irq_handle(_RegSet *tf) {
   _RegSet *next = tf;
@@ -12,6 +14,7 @@ _RegSet* irq_handle(_RegSet *tf) {
     _Event ev;
     switch (tf->irq) {
       case 0x80: ev.event = _EVENT_SYSCALL; break;
+	  case 0x81: ev.event = _EVENT_TRAP; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
@@ -20,7 +23,21 @@ _RegSet* irq_handle(_RegSet *tf) {
       next = tf;
     }
   }
-
+  /*
+  printf("edi 0x%-8x\n", next->edi);
+  printf("esi 0x%-8x\n", next->esi);
+  printf("ebp 0x%-8x\n", next->ebp);
+  printf("esp 0x%-8x\n", next->esp);
+  printf("ebx 0x%-8x\n", next->ebx);
+  printf("edx 0x%-8x\n", next->edx);
+  printf("ecx 0x%-8x\n", next->ecx);
+  printf("eax 0x%-8x\n", next->eax);
+  printf("irq 0x%-8x\n", next->irq);
+  printf("error_code 0x%-8x\n", next->error_code);
+  printf("eip 0x%-8x\n", next->eip);
+  printf("cs 0x%-8x\n", next->cs);
+  printf("eflags 0x%-8x\n", next->eflags);
+  */
   return next;
 }
 
@@ -34,6 +51,7 @@ void _asye_init(_RegSet*(*h)(_Event, _RegSet*)) {
 
   // -------------------- system call --------------------------
   idt[0x80] = GATE(STS_TG32, KSEL(SEG_KCODE), vecsys, DPL_USER);
+  idt[0x81] = GATE(STS_TG32, KSEL(SEG_KCODE), vectrap, DPL_USER);
 
   set_idt(idt, sizeof(idt));
 
@@ -46,6 +64,7 @@ _RegSet *_make(_Area stack, void *entry, void *arg) {
 }
 
 void _trap() {
+  asm volatile("int $0x81");
 }
 
 int _istatus(int enable) {

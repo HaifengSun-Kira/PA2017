@@ -18,7 +18,7 @@ extern void _map(_Protect *as, void *vs, void *pa);
 
 /* The brk() system call handler. */
 int mm_brk(uint32_t new_brk) {
-  Log("cur_brk:0x%-8x  max_brk:0x%-8x  new_brk:0x%-8x", current->cur_brk, current->max_brk, new_brk);
+  //Log("cur_brk:0x%-8x  max_brk:0x%-8x  new_brk:0x%-8x", current->cur_brk, current->max_brk, new_brk);
   if (current->cur_brk == 0) {
 	current -> cur_brk = new_brk;
 	current -> max_brk = (new_brk & 0xfffff000) + 0x1000;
