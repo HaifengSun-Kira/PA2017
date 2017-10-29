@@ -35,8 +35,11 @@ paddr_t page_translate(vaddr_t addr, bool is_write) {
 	paddr_t pde_base = cpu.cr3;
 	paddr_t pde_addr = pde_base + ((addr >> 22) << 2);
 	uint32_t pde = paddr_read(pde_addr, 4);
-	if ((pde & 0x1) == 0)
-	  Assert(0, "The present bit of pde is wrong!!!");
+	if ((pde & 0x1) == 0) {
+	  Log("pde_base: 0x%-8x", pde_base);
+	  Log("pde: 0x%-8x", pde);
+	  Assert(0, "vaddr: 0x%-8x. The present bit of pde is wrong!!!", addr);
+	}
 	paddr_t pte_base = pde & 0xfffff000;
 	paddr_t pte_addr = pte_base + ((addr & 0x003ff000) >> 10);
 	uint32_t pte = paddr_read(pte_addr, 4);

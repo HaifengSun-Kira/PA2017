@@ -11,6 +11,7 @@ void init_irq(void);
 void init_fs(void);
 uint32_t loader(_Protect *, const char *);
 
+extern void _trap();
 extern void load_prog(const char *);
 
 int main() {
@@ -35,6 +36,10 @@ int main() {
 //  uint32_t entry = loader(NULL, "/bin/pal");
 //  ((void (*)(void))entry)();
   load_prog("/bin/pal");
+  load_prog("/bin/hello");
+
+  //pa4-2.nexus-am/am/arch/x86-nemu/src/asye.c
+  _trap();
 
   panic("Should not reach here");
 }
