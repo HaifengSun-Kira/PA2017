@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
 
-#define TIMER_IRQ 32
+#define TIMER_IRQ 0x32
 
 typedef struct {
   DHelper decode;
